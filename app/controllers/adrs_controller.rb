@@ -1,4 +1,15 @@
 class AdrsController < ApplicationController
+  def index
+    render json: Adr.all.order_by(created_at: :desc)
+  end
+
+  def show
+    @adr = Adr.find(params[:id])
+    render json: @adr
+  rescue Mongoid::Errors::DocumentNotFound
+    render json: { error: "ADR not found" }, status: :not_found
+  end
+
   def create
     @adr = Adr.new(adr_params)
     if @adr.save
