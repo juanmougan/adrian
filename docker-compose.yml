@@ -16,6 +16,8 @@ services:
       - .:/app
     depends_on:
       - db
+    environment:
+      RAILS_ENV: development
 
 volumes:
   mongo_data:
