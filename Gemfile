@@ -56,3 +56,5 @@ end
 
 # Persistance
 gem "mongoid", "~> 9.0.6"
+
+gem "tailwindcss-rails", "~> 4.3"
