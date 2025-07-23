@@ -1,0 +1,23 @@
+<%= form_with url: adrs_path, method: :post, scope: :adr, data: { turbo_stream: true } do |form| %>
+  <div class="mb-2">
+    <%= form.label :title, class: "block font-medium" %>
+    <%= form.text_field :title, class: "border rounded w-full p-2" %>
+  </div>
+
+  <div class="mb-2">
+    <%= form.label :context, class: "block font-medium" %>
+    <%= form.text_area :context, class: "border rounded w-full p-2" %>
+  </div>
+
+  <div class="mb-2">
+    <%= form.label :decision, class: "block font-medium" %>
+    <%= form.text_area :decision, class: "border rounded w-full p-2" %>
+  </div>
+
+  <div class="mb-2">
+    <%= form.label :consequences, class: "block font-medium" %>
+    <%= form.text_area :consequences, class: "border rounded w-full p-2" %>
+  </div>
+
+  <%= form.submit "Create ADR", class: "bg-blue-600 text-white rounded px-4 py-2" %>
+<% end %>
