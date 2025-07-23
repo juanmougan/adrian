@@ -1,24 +1,9 @@
-# README
+# Adrian
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Adrian is a simple web tool to create and manage ADRs.
 
-Things you may want to cover:
+## Versions
 
-* Ruby version
+* Ruby version: 3.2.2
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+* System dependencies: Docker is needed
