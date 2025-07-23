@@ -14,7 +14,11 @@ class Adr
   validates :status, inclusion: { in: %w[PROPOSED ACCEPTED SUPERSEDED] }
 
   def accept!
-    update!(status: "ACCEPTED")
+    if self.status == "PROPOSED"
+      update!(status: "ACCEPTED")
+    else
+      raise "Can't accept an ADR in status: #{self.status}"
+    end
   end
 
   def supersede_with(new_adr)

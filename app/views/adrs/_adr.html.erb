@@ -3,4 +3,16 @@
   <p><strong>Context:</strong> <%= adr.context %></p>
   <p><strong>Decision:</strong> <%= adr.decision %></p>
   <p><strong>Consequences:</strong> <%= adr.consequences %></p>
+
+  <% if adr.status == "PROPOSED" %>
+      <%= button_to "Approve", adr_path(adr), method: :patch,
+        params: { adr: { status: "ACCEPTED" } },
+        data: { turbo_frame: "_top" },
+        class: "bg-green-500 text-white px-3 py-1 rounded mr-2" %>
+
+
+      <button data-action="click->replace#show" data-replace-id-value="<%= adr.id %>" class="bg-yellow-500 text-white px-3 py-1 rounded">
+        Replace
+      </button>
+  <% end %>
 </div>
