@@ -31,7 +31,10 @@ class AdrsController < ApplicationController
       return render_error("ADR must be in PROPOSED state") unless @adr.status == "PROPOSED"
 
       @adr.update!(status: "ACCEPTED")
-      render json: @adr and return
+      respond_to do |format|
+        format.turbo_stream # renders update.turbo_stream.erb
+        format.html { redirect_to adrs_path, notice: "ADR approved" }
+      end
 
     elsif params[:adr][:status] == "SUPERSEDED"
       new_id = params[:adr][:superseeded_by]
@@ -41,7 +44,10 @@ class AdrsController < ApplicationController
       superseding_adr = Adr.find(new_id)
       superseding_adr.update!(supersedes: @adr.id)
 
-      render json: @adr and return
+      respond_to do |format|
+        format.turbo_stream
+        format.html { redirect_to adrs_path, notice: "ADR superseded" }
+      end
     end
 
     render_error("Unsupported status or no update performed")
@@ -55,8 +61,11 @@ class AdrsController < ApplicationController
     params.require(:adr).permit(:title, :context, :decision, :consequences)
   end
 
-  def render_error(message, redirect_path: root_path)
-    flash[:alert] = message
-    redirect_to redirect_path
+  def render_error(message)
+    respond_to do |format|
+      format.turbo_stream { render turbo_stream: turbo_stream.replace("flash", partial: "shared/flash", locals: { alert: message }) }
+      format.html { redirect_to root_path, alert: message }
+      format.json { render json: { error: message }, status: :unprocessable_entity }
+    end
   end
 end

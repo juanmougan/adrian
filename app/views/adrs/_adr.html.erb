@@ -4,19 +4,23 @@
   <p><strong>Decision:</strong> <%= adr.decision %></p>
   <p><strong>Consequences:</strong> <%= adr.consequences %></p>
 
-  <% if adr.status == "PROPOSED" %>
-      <%= button_to "Approve", adr_path(adr), method: :patch,
-        params: { adr: { status: "ACCEPTED" } },
-        data: { turbo_frame: "_top" },
-        class: "bg-green-500 text-white px-3 py-1 rounded mr-2" %>
+  <%= turbo_frame_tag dom_id(adr) do %>
+    <div class="bg-white shadow-md rounded px-4 py-2 mb-4">
+        <h3 class="text-lg font-semibold"><%= adr.title %></h3>
+        <p>Status: <%= adr.status %></p>
+
+        <% if adr.status == "PROPOSED" %>
+          <%= button_to "Approve", adr_path(adr), method: :patch,
+            params: { adr: { status: "ACCEPTED" } },
+            data: { turbo_frame: dom_id(adr) },
+            class: "bg-green-500 text-white px-3 py-1 rounded mr-2" %>
+        <% elsif adr.status == "ACCEPTED" %>
+          <%= button_to "Supersede", adr_path(adr), method: :put,
+            params: { adr: { status: "SUPERSEDED" } },
+            data: { turbo_frame: dom_id(adr) },
+            class: "bg-yellow-500 text-white px-3 py-1 rounded" %>
+        <% end %>
+    </div>
   <% end %>
 
-  <% if adr.status == "ACCEPTED" %>
-    <button
-        data-action="click->supersede#open"
-        data-supersede-id-value="<%= adr.id %>"
-        class="bg-yellow-500 text-white px-3 py-1 rounded">
-        Supersede
-    </button>
-    <% end %>
 </div>
