@@ -6,8 +6,15 @@ class AdrsController < ApplicationController
 
   def create
     @adr = Adr.new(adr_params)
+    supersedes_id = params[:supersedes]
 
     if @adr.save
+      if supersedes_id.present?
+        superseded_adr = Adr.find(supersedes_id)
+        @adr.update!(supersedes: supersedes_id)
+        superseded_adr.update!(status: "SUPERSEDED", superseeded_by: @adr.id)
+      end
+
       respond_to do |format|
         format.turbo_stream
         format.html { redirect_to adrs_path, notice: "ADR created" }

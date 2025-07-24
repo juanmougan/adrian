@@ -9,10 +9,14 @@
         params: { adr: { status: "ACCEPTED" } },
         data: { turbo_frame: "_top" },
         class: "bg-green-500 text-white px-3 py-1 rounded mr-2" %>
-
-
-      <button data-action="click->replace#show" data-replace-id-value="<%= adr.id %>" class="bg-yellow-500 text-white px-3 py-1 rounded">
-        Replace
-      </button>
   <% end %>
+
+  <% if adr.status == "ACCEPTED" %>
+    <button
+        data-action="click->supersede#open"
+        data-supersede-id-value="<%= adr.id %>"
+        class="bg-yellow-500 text-white px-3 py-1 rounded">
+        Supersede
+    </button>
+    <% end %>
 </div>
