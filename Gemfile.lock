@@ -154,7 +154,7 @@ GEM
     mongo (2.21.2)
       base64
       bson (>= 4.14.1, < 6.0.0)
-    mongoid (9.0.6)
+    mongoid (9.0.7)
       activemodel (>= 5.1, < 8.1, != 7.0.0)
       concurrent-ruby (>= 1.0.5, < 2.0)
       mongo (>= 2.18.0, < 3.0.0)
@@ -341,7 +341,7 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   kamal
-  mongoid (~> 9.0.6)
+  mongoid (~> 9.0.7)
   propshaft
   puma (>= 5.0)
   rails (~> 8.0.2)
