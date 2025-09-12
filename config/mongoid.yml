@@ -292,7 +292,7 @@ test:
     default:
       database: adrian_test
       hosts:
-        - db:27017
+        - <%= ENV['CI'] ? 'localhost:27017' : 'db:27017' %>
       options:
         read:
           mode: :primary
