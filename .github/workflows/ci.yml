@@ -62,15 +62,17 @@ jobs:
         image: mongo:7.0
         ports:
           - 27017:27017
-        options: >-
-          --health-cmd "mongosh --eval 'db.hello()'"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
 
     steps:
       - name: Install packages
         run: sudo apt-get update && sudo apt-get install --no-install-recommends -y build-essential git libyaml-dev pkg-config google-chrome-stable
+
+      - name: Install MongoDB tools
+        run: |
+          wget -qO - https://www.mongodb.org/static/pgp/server-7.0.asc | sudo apt-key add -
+          echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/7.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-7.0.list
+          sudo apt-get update
+          sudo apt-get install -y mongodb-mongosh
 
       - name: Checkout code
         uses: actions/checkout@v5
@@ -83,7 +85,15 @@ jobs:
 
       - name: Wait for MongoDB
         run: |
-          timeout 60 bash -c 'until mongosh --host localhost:27017 --eval "db.hello()" > /dev/null 2>&1; do echo "Waiting for MongoDB..."; sleep 2; done'
+          echo "Waiting for MongoDB to be ready..."
+          for i in {1..30}; do
+            if mongosh --host localhost:27017 --eval "db.hello()" --quiet > /dev/null 2>&1; then
+              echo "MongoDB is ready!"
+              break
+            fi
+            echo "Waiting for MongoDB... (attempt $i/30)"
+            sleep 2
+          done
 
       - name: Run tests
         env:
