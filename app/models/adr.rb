@@ -6,8 +6,8 @@ class Adr
   field :context, type: String
   field :decision, type: String
   field :consequences, type: String
-  field :superseeded_by, type: Integer
-  field :supersedes, type: Integer
+  field :superseeded_by, type: BSON::ObjectId
+  field :supersedes, type: BSON::ObjectId
   field :status, type: String, default: "PROPOSED"
 
   validates :title, :context, :decision, :consequences, presence: true

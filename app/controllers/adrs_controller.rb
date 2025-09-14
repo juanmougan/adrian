@@ -20,6 +20,7 @@ class AdrsController < ApplicationController
         format.html { redirect_to adrs_path, notice: "ADR created" }
       end
     else
+      @adrs = Adr.order(created_at: :desc)
       render :index
     end
   end
@@ -35,6 +36,7 @@ class AdrsController < ApplicationController
         format.turbo_stream # renders update.turbo_stream.erb
         format.html { redirect_to adrs_path, notice: "ADR approved" }
       end
+      return
 
     elsif params[:adr][:status] == "SUPERSEDED"
       new_id = params[:adr][:superseeded_by]
@@ -48,6 +50,7 @@ class AdrsController < ApplicationController
         format.turbo_stream
         format.html { redirect_to adrs_path, notice: "ADR superseded" }
       end
+      return
     end
 
     render_error("Unsupported status or no update performed")
