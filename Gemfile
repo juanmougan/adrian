@@ -55,6 +55,6 @@ group :test do
 end
 
 # Persistance
-gem "mongoid", "~> 9.0.7"
+gem "mongoid", "~> 9.0.8"
 
 gem "tailwindcss-rails", "~> 4.3"
