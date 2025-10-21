@@ -1,9 +1,18 @@
-<h1 class="text-2xl font-bold mb-4">Architecture Decision Records</h1>
+<div data-controller="form-toggle">
+  <div class="flex justify-between items-center mb-4">
+    <h1 class="text-2xl font-bold">Architecture Decision Records</h1>
+    <button id="add-adr-btn" class="bg-blue-600 text-white rounded-full w-12 h-12 flex items-center justify-center hover:bg-blue-700 transition-colors" data-action="click->form-toggle#show">
+      <i class="fas fa-plus"></i>
+    </button>
+  </div>
 
-<%= render partial: "form", locals: { adr: @adr } %>
+  <div id="adr-form" class="hidden mb-6" data-form-toggle-target="form">
+    <%= render partial: "form", locals: { adr: @adr } %>
+  </div>
 
-<div id="adrs-list">
-  <%= render @adrs %>
+  <div id="adrs-list">
+    <%= render @adrs %>
+  </div>
+
+  <%= render "supersede_modal" %>
 </div>
-
-<%= render "supersede_modal" %>
